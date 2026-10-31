@@ -1,0 +1,73 @@
+* { box-sizing: border-box; }
+:root { --pink: #ed78aa; --deep-pink: #c94f86; --pale: #fff0f7; --line: #e99abb; }
+body {
+  margin: 0; min-height: 100vh; padding: 22px 14px 30px;
+  background: radial-gradient(circle at 10% 10%, #fff 0 2px, transparent 3px), linear-gradient(135deg, #ffe5f1, #ffd3e7 55%, #fff0f7);
+  background-size: 35px 35px, auto; color: #9d426b;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+.game { width: min(1100px, 100%); margin: auto; }
+.page-header { text-align: center; padding: 10px 10px 18px; position: relative; }
+.eyebrow { margin: 0 0 5px; font-size: 10px; letter-spacing: 3px; color: #d76d9b; font-weight: bold; }
+h1 { margin: 0; color: #d84f8b; font-size: clamp(27px, 5vw, 47px); text-shadow: 0 3px white, 0 5px #f6b2d0; }
+.subtitle { margin: 8px 0 0; font-size: 16px; color: #bd5684; }
+.header-kitty { position: absolute; left: 4%; top: 0; font-size: 40px; transform: rotate(-12deg); }
+.decor-panel { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 9px; background: #fff9fc; border: 4px solid #f4a9c9; border-radius: 25px; padding: 12px; margin: 0 0 15px; box-shadow: 0 5px 0 #e99abb; }
+.decor-button, .reset-button { border: 2px solid #ee8db5; border-radius: 30px; background: linear-gradient(#fff, #ffe0ed); padding: 10px 15px; color: #a94470; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 2px 0 #f2b4ce; transition: .15s; }
+.decor-button:hover, .reset-button:hover { transform: translateY(-2px); background: #ffd0e4; }
+.decor-button span { margin-right: 4px; }
+.reset-button { background: #f66da5; color: white; border-color: #e85b98; }
+.toggle { position: absolute; opacity: 0; pointer-events: none; }
+.game-board { border: 5px solid #f4a8c8; border-radius: 22px; padding: 5px; background: #fff8fb; box-shadow: 0 9px 0 #e99abb, 0 15px 30px #d98eae55; }
+.room { height: clamp(490px, 62vw, 650px); min-height: 490px; position: relative; overflow: hidden; border-radius: 14px; background: #ffe0ee; touch-action: none; }
+.wall { position: absolute; inset: 0 0 22% 0; background-color: #ffddec; background-image: radial-gradient(#f7a9ca 1.4px, transparent 1.6px), radial-gradient(#fff5fa 2px, transparent 2.2px); background-size: 34px 34px, 69px 69px; }
+.floor { position: absolute; bottom: 0; left: 0; width: 100%; height: 23%; background: repeating-linear-gradient(90deg, transparent 0 95px, #eeb3c8 96px 98px), repeating-linear-gradient(0deg, #f7c5d5 0 48px, #eeb4c8 49px 51px); border-top: 7px solid #f2aac7; }
+.wall-hearts { position: absolute; top: 25px; left: 40%; color: #f39abd; opacity: .55; font-size: 24px; pointer-events: none; }
+.item { position: absolute; cursor: grab; user-select: none; touch-action: none; }
+.item.dragging { cursor: grabbing; filter: drop-shadow(0 5px 4px #ad5c8144); }
+.window { left: 5%; top: 8%; width: 31%; height: 43%; border: 9px solid #fff5fa; outline: 4px solid #df91b3; border-radius: 8px; background: #bde4fa; box-shadow: inset 0 0 0 4px #f4b6d0, 0 5px 8px #b9678a33; overflow: hidden; }
+.sky { position: absolute; inset: 0; background: linear-gradient(#a9dcf6, #e8f7ff); color: white; font-size: 42px; display: flex; justify-content: space-around; padding-top: 12px; }
+.window-cross { position: absolute; background: #fff7fb; box-shadow: 0 0 0 2px #e6a0bd; }
+.vertical { width: 6px; height: 100%; left: 50%; }.horizontal { height: 6px; width: 100%; top: 50%; }
+.curtain { position: absolute; top: -4px; height: 105%; width: 24%; background: repeating-linear-gradient(90deg, #f9b9d1 0 12px, #fff0f6 13px 25px); border: 3px solid #e994b8; border-radius: 0 0 35% 35%; }
+.curtain-left { left: -3px; transform: rotate(4deg); }.curtain-right { right: -3px; transform: rotate(-4deg); }
+.curtain-bow { position: absolute; top: 55%; font-size: 25px; }.left-bow { left: 2%; }.right-bow { right: 2%; }
+.wall-art { top: 19%; width: 8%; height: 15%; border: 5px solid #fff7fb; outline: 3px solid #e89ab9; background: #fff1f7; border-radius: 7px; display: grid; place-items: center; font-size: clamp(20px, 3vw, 36px); }
+.art-flower { left: 53%; }.art-kitty { left: 64%; color: #e86d9e; font-size: 40px; }
+.shelf { top: 18%; right: 7%; width: 20%; height: 12px; background: #d77da2; border: 3px solid #fff0f7; border-radius: 8px; box-shadow: 0 8px 0 #eaa1bd; display: flex; justify-content: space-around; font-size: 25px; }
+.vanity { left: 9%; bottom: 8%; width: 19%; height: 24%; }
+.mirror { position: absolute; left: 23%; top: -42%; width: 54%; height: 75%; border: 9px solid #fff4f9; outline: 4px solid #df8eb0; border-radius: 50%; background: linear-gradient(135deg, #d6efff, #fff); display: grid; place-items: center; font-size: 35px; color: #e987b0; }
+.vanity-top { position: absolute; top: 28%; width: 100%; height: 13%; background: #fff0f7; border: 4px solid #d982a8; border-radius: 7px; }
+.drawer { position: absolute; top: 43%; left: 8%; width: 84%; height: 32%; background: #ffe8f1; border: 3px solid #dc91b1; text-align: center; padding-top: 5px; font-size: 23px; }
+.vanity-leg { position: absolute; top: 74%; height: 27%; width: 8px; background: #d982a8; }.leg-one { left: 15%; }.leg-two { right: 15%; }
+.bed { right: 15%; bottom: 8%; width: 34%; height: 46%; }
+.headboard { position: absolute; top: 0; left: 4%; width: 92%; height: 64%; border: 10px solid #fff5fa; outline: 4px solid #d982a8; border-radius: 45% 45% 12px 12px; background: #f9c4d9; }
+.head-bow { position: absolute; right: 12%; top: -18%; font-size: 48px; }
+.pillow { position: absolute; top: 25%; width: 43%; height: 27%; border-radius: 35%; background: #fff2f8; border: 3px solid #edacc8; z-index: 2; }
+.pillow-one { left: 8%; }.pillow-two { right: 8%; text-align: center; font-size: 25px; }
+.duvet { position: absolute; z-index: 3; left: 0; bottom: 5%; width: 100%; height: 48%; border: 5px solid #e58db1; border-radius: 35% 35% 12% 12%; background: repeating-linear-gradient(90deg, #ffd5e5 0 22px, #fff0f7 23px 45px); display: flex; justify-content: space-around; align-items: center; color: #e77eaa; font-size: 23px; }
+.bed-foot { position: absolute; bottom: 0; left: 5%; width: 90%; height: 9%; background: #e99abb; border-radius: 8px; }
+.nightstand { right: 2%; bottom: 9%; width: 12%; height: 22%; background: #ffe9f2; border: 4px solid #d982a8; border-radius: 7px; }
+.night-drawer { height: 33%; margin: 7px; border: 2px solid #e6a1bd; text-align: center; color: #e77eaa; font-size: 17px; }
+.lamp { position: absolute; bottom: 100%; left: 10%; width: 80%; height: 100px; display: flex; flex-direction: column; align-items: center; }
+.shade { width: 75px; height: 48px; background: #fff2d9; border: 4px solid #d78ba9; clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%); }
+.lamp-stem { height: 25px; width: 8px; background: #d78ba9; }.lamp-base { height: 8px; width: 48px; border-radius: 50%; background: #d78ba9; }
+.plant { left: 2%; bottom: 7%; font-size: 48px; text-align: center; }.leaves { line-height: 1; }.plant-pot, .flower-pot { background: #fff0f7; border: 3px solid #e18eaf; border-radius: 5px 5px 14px 14px; color: #e77eaa; font-size: 19px; width: 58px; margin: -2px auto 0; text-align: center; }
+.flowers { left: 38%; bottom: 5%; font-size: 35px; text-align: center; }.flower-pot { width: 70px; }
+.books { right: 28%; top: 18%; font-size: 40px; }.teddy { right: 5%; bottom: 27%; font-size: 48px; }
+.kitty { left: 38%; bottom: 7%; width: 17%; max-width: 180px; z-index: 12; }
+.kitty-image { display: block; width: 100%; height: auto; max-height: 270px; object-fit: contain; pointer-events: none; user-select: none; }
+.rug { left: 34%; bottom: 1%; width: 34%; height: 13%; border: 7px solid #fff1f7; outline: 4px solid #e89abb; border-radius: 50%; background: #ffd9e9; box-shadow: inset 0 0 0 5px #f4b4ce; display: grid; place-items: center; z-index: 1; color: #e477a5; font-size: 35px; }
+.room-sign { position: absolute; right: 2%; bottom: 2%; padding: 9px 14px; background: #fff5fa; border: 3px solid #eea1c2; border-radius: 22px; color: #c44f83; font-weight: bold; font-size: 13px; z-index: 15; }
+.hidden-item { display: none !important; }
+footer { text-align: center; margin-top: 22px; color: #c44f83; font-weight: bold; font-size: 18px; }
+.hint { text-align: center; color: #b9688d; font-size: 12px; margin: 8px 0; }
+@media (max-width: 650px) {
+  body { padding: 12px 8px 20px; }.header-kitty { display: none; }
+  .decor-panel { gap: 6px; padding: 9px; }.decor-button, .reset-button { padding: 8px 10px; font-size: 12px; }
+  .room { min-height: 470px; height: 72vw; }.window { left: 3%; width: 34%; height: 36%; }
+  .bed { right: 13%; width: 39%; height: 40%; }.vanity { left: 5%; width: 21%; }
+  .kitty { left: 38%; width: 22%; bottom: 8%; }.kitty-image { max-height: 190px; }
+  .nightstand { width: 14%; right: 1%; }.room-sign { font-size: 9px; padding: 6px 8px; }
+  .shelf { right: 4%; width: 23%; }.wall-art { top: 17%; }
+}

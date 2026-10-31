@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello Kitty Dream House 🎀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game">
+    <header class="page-header">
+      <div class="header-kitty" aria-hidden="true">🎀</div>
+      <p class="eyebrow">WELCOME TO YOUR LITTLE WORLD</p>
+      <h1>♡ Hello Kitty Dream House ♡</h1>
+      <p class="subtitle">Make your sweetest dreams come true!</p>
+    </header>
+
+    <section class="decor-panel" aria-label="Room decorations">
+      <label class="decor-button" for="show-rug"><span>🩷</span> Heart Rug</label>
+      <label class="decor-button" for="show-plant"><span>🌷</span> Plant</label>
+      <label class="decor-button" for="show-teddy"><span>🧸</span> Teddy</label>
+      <label class="decor-button" for="show-lamp"><span>💡</span> Lamp</label>
+      <label class="decor-button" for="show-books"><span>📚</span> Books</label>
+      <label class="decor-button" for="show-flowers"><span>🌸</span> Flowers</label>
+      <button class="reset-button" id="reset-room" type="button">↻ Reset room</button>
+    </section>
+
+    <section class="game-board" aria-label="Decorate your bedroom">
+      <input class="toggle" type="checkbox" id="show-rug" checked>
+      <input class="toggle" type="checkbox" id="show-plant" checked>
+      <input class="toggle" type="checkbox" id="show-teddy" checked>
+      <input class="toggle" type="checkbox" id="show-lamp" checked>
+      <input class="toggle" type="checkbox" id="show-books" checked>
+      <input class="toggle" type="checkbox" id="show-flowers" checked>
+
+      <div class="room" id="room">
+        <div class="wall"></div>
+        <div class="floor"></div>
+        <div class="wall-hearts" aria-hidden="true">♡　♡　♥　♡　　♡　♥　♡　　♡　♡　♥</div>
+
+        <div class="window item" aria-label="Window">
+          <div class="sky"><span>☁</span><span>☁</span></div>
+          <div class="window-cross vertical"></div><div class="window-cross horizontal"></div>
+          <div class="curtain curtain-left"></div><div class="curtain curtain-right"></div>
+          <div class="curtain-bow left-bow">🎀</div><div class="curtain-bow right-bow">🎀</div>
+        </div>
+
+        <div class="wall-art art-flower item">🌷</div>
+        <div class="wall-art art-kitty item">♡</div>
+        <div class="shelf item"><span>📚</span><span>🪴</span><span>🎀</span></div>
+
+        <div class="vanity item">
+          <div class="mirror"><span>♡</span></div>
+          <div class="vanity-top"></div><div class="drawer">♡</div><div class="vanity-leg leg-one"></div><div class="vanity-leg leg-two"></div>
+        </div>
+
+        <div class="bed item">
+          <div class="headboard"><span class="head-bow">🎀</span></div>
+          <div class="pillow pillow-one"></div><div class="pillow pillow-two">🎀</div>
+          <div class="duvet"><span>♡</span><span>🎀</span><span>♡</span></div>
+          <div class="bed-foot"></div>
+        </div>
+
+        <div class="nightstand item">
+          <div class="lamp" id="lamp"><div class="shade"></div><div class="lamp-stem"></div><div class="lamp-base"></div></div>
+          <div class="night-drawer">♡</div><div class="night-drawer">♡</div>
+        </div>
+
+        <div class="plant item" id="plant"><div class="leaves">🌿</div><div class="plant-pot">🎀</div></div>
+        <div class="flowers item" id="flowers">🌷🌷<div class="flower-pot">♡</div></div>
+        <div class="books item" id="books">📚</div>
+        <div class="teddy item" id="teddy">🧸</div>
+
+        <div class="kitty item" id="kitty">
+          <img src="hello-kitty.webp" alt="Hello Kitty holding her teddy bear" class="kitty-image">
+        </div>
+
+        <div class="rug item" id="rug"><span>🎀</span></div>
+        <div class="room-sign">Sweet dreams, little princess! ♡</div>
+      </div>
+    </section>
+    <footer>Made with ♡, pink bows and lots of love 🎀</footer>
+    <p class="hint">Tip: drag the decorations around to make the room yours!</p>
+  </main>
+
+  <script>
+    // Show or hide decorations using the buttons above the room.
+    const visibility = {
+      'show-rug': 'rug', 'show-plant': 'plant', 'show-teddy': 'teddy',
+      'show-lamp': 'lamp', 'show-books': 'books', 'show-flowers': 'flowers'
+    };
+
+    Object.entries(visibility).forEach(([checkboxId, itemId]) => {
+      const checkbox = document.getElementById(checkboxId);
+      const item = document.getElementById(itemId);
+      checkbox.addEventListener('change', () => {
+        item.classList.toggle('hidden-item', !checkbox.checked);
+      });
+    });
+
+    // Make room items draggable with a mouse, finger, or stylus.
+    const room = document.getElementById('room');
+    document.querySelectorAll('.room .item').forEach(item => {
+      let pointerStartX = 0, pointerStartY = 0, itemStartX = 0, itemStartY = 0;
+      item.addEventListener('pointerdown', event => {
+        if (item.classList.contains('hidden-item')) return;
+        event.preventDefault();
+        const roomRect = room.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+        pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
+        itemStartX = itemRect.left - roomRect.left;
+        itemStartY = itemRect.top - roomRect.top;
+        item.style.left = itemStartX + 'px';
+        item.style.top = itemStartY + 'px';
+        item.style.right = 'auto';
+        item.style.bottom = 'auto';
+        item.style.zIndex = 30;
+        item.classList.add('dragging');
+        item.setPointerCapture(event.pointerId);
+      });
+      item.addEventListener('pointermove', event => {
+        if (!item.hasPointerCapture(event.pointerId)) return;
+        const dx = event.clientX - pointerStartX;
+        const dy = event.clientY - pointerStartY;
+        const maxX = room.clientWidth - item.offsetWidth;
+        const maxY = room.clientHeight - item.offsetHeight;
+        item.style.left = Math.max(0, Math.min(maxX, itemStartX + dx)) + 'px';
+        item.style.top = Math.max(0, Math.min(maxY, itemStartY + dy)) + 'px';
+      });
+      const stopDragging = event => {
+        if (item.hasPointerCapture(event.pointerId)) item.releasePointerCapture(event.pointerId);
+        item.classList.remove('dragging');
+      };
+      item.addEventListener('pointerup', stopDragging);
+      item.addEventListener('pointercancel', stopDragging);
+    });
+
+    // Restore the original room layout and turn every decoration back on.
+    document.getElementById('reset-room').addEventListener('click', () => {
+      Object.keys(visibility).forEach(id => {
+        const checkbox = document.getElementById(id);
+        checkbox.checked = true;
+        document.getElementById(visibility[id]).classList.remove('hidden-item');
+      });
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
